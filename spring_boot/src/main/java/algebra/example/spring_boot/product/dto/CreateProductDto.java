@@ -1,9 +1,11 @@
-package algebra.example.spring_boot.product;
+package algebra.example.spring_boot.product.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -18,5 +20,13 @@ public class CreateProductDto {
     @Min(2)
     @Max(13)
     public Integer quantity;
+
+    private String description;
+
+    private BigDecimal price;
+
+    private boolean available;
+
+
 
 }

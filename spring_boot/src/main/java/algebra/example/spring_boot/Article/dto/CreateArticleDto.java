@@ -1,4 +1,4 @@
-package algebra.example.spring_boot.Article;
+package algebra.example.spring_boot.Article.dto;
 
 
 import jakarta.validation.constraints.NotBlank;

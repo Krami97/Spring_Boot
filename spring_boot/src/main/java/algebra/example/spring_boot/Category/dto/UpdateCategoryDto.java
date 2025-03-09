@@ -1,4 +1,4 @@
-package algebra.example.spring_boot.Category;
+package algebra.example.spring_boot.Category.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

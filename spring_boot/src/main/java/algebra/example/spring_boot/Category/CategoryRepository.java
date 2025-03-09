@@ -1,6 +1,7 @@
 package algebra.example.spring_boot.Category;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,8 +22,12 @@ public class CategoryRepository {
 
     public Optional<Category> findById(Integer id){
         String query = "SELECT * FROM Category WHERE id=?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(query,new CategoryRowMapper(),id));
-    }
+        try{
+            return Optional.ofNullable(jdbcTemplate.queryForObject(query, new CategoryRowMapper(), id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+}
 
     public Optional<Category> create(Category category){
         String query ="INSERT INTO Category(name,description) VALUES(?,?)";
@@ -34,6 +39,11 @@ public class CategoryRepository {
         String query = "UPDATE Category SET name =? , description = ? WHERE id = ?";
         jdbcTemplate.update(query,category.getName(),category.getDescription(),category.getId());
         return Optional.of(category);
+    }
+
+    public void  delete(Integer id){
+        String query ="DELETE Category WHERE id = ?";
+        jdbcTemplate.update(query,id);
     }
 
 }

@@ -1,32 +1,32 @@
 package algebra.example.spring_boot.product;
 
-import org.springframework.stereotype.Service;
+import algebra.example.spring_boot.product.dto.CreateProductDto;
+import algebra.example.spring_boot.product.dto.UpdateProductDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-//service klase upravljaju poslovnom logikom
-@Service //ili @Component  oznacaju "beans klasu" spring bootu , pos
-public class ProductService {
+public interface ProductService {
 
-    public Product create(CreateProductDto dto){
-        return new Product(12l,dto.getName(), dto.getQuantity());
-    }
+    Product create(CreateProductDto dto);
 
-    public Product update(Long id, UpdateProductDto dto){
-        Product productFromDb  = new Product(12l , "old name",11);
+    Product update(Integer id, UpdateProductDto dto);
+    Product findById(Integer id);
+    List<Product> fetchAll();
+    void delete(Integer id);
+    List<Product>  findByName(String name);
 
-        productFromDb.setName(dto.getName());
-        return productFromDb;
-    }
-    public Product findById(Long id){
-        return new Product(id,"some name from db",11);
-    }
-    public List<Product> fetchAll(){
-        return List.of(new Product(12l , " name1",10),new Product(13l , "old name2",11));
-    }
+    List<Product> findPriceBetween(BigDecimal priceMin, BigDecimal priceMax);
+    List<Product> findAvailableProducts();
+    List<Product> findDescriptionContains(String description);
 
-    public void delete(Long id){
-        System.out.println("Product se brise iz baze podtaka id: "+ id);
-        // logika za brisanje
-    }
+    List<Product> findByPriceNotBetween(BigDecimal priceMin , BigDecimal priceMax);
+
+    List<Product> findByAvailableFalse();
+    List<Product> findByDescriptionLike(String description);
+    List<Product> findByDescriptionNotLike(String description);
+    List<Product> findByDescriptionIsNull(String description);
+
+
+
 }

@@ -1,50 +1,30 @@
 package algebra.example.spring_boot.Article;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
+// ima vec predefinirane CRUD metode
 @Repository
-@RequiredArgsConstructor
-public class ArticleRepository {
+public interface ArticleRepository extends JpaRepository<Article,Integer> {
 
-    private final JdbcTemplate jdbcTemplate;
+    /*
+    Optional<Article> findTop1ByName(String name);//vrati prvi artikl koji je po imenu
+    //
+    @Query("SELECT a FROM Article a WHERE a.category.name = :name")
+    Optional<Article> findByCategoryName(String name);
 
+    List<Article> findByNameAndDescription(String name, String description); // pretrazuje po name i opisu
 
-    public List<Article> fachAll(){
-        return jdbcTemplate.query("SELECT a.id, a.name, a.description, a.price, a.categoryId, c.name AS categoryName, " +
-                "c.description AS categoryDescription FROM Article a LEFT JOIN Category c ON a.categoryId = c.id", new ArticleRowMapper());
+    List<Article> findByNameOrDescription(String name,String description); // pretrazuje  da se macha name ili opis
 
-    }
-    // Optional znaci da cemo dobiti artikl ako postoji ili null ako ga nema u bazi
-    public Optional<Article> findById(Integer id){
-        String query ="SELECT a.id, a.name, a.description, a.price, a.categoryId, c.name AS categoryName, " +
-                "c.description AS categoryDescription FROM Article a LEFT JOIN Category c ON a.categoryId = c.id" +
-                " WHERE a.id = ?";
-        Map<String, Object> parameters = new HashMap<>();// kad satvimo Object kao tip podatka mozemo prosljediti bilo koji tip podatka
-                                                        // to se korisit kako bi mogli prosljediti vise razlicitih tipova podataka
+    Optional<Article> findByNameLike(String name); // pretrazuje po imenu koje slici
 
-        parameters.put("articleId",id);
-        return Optional.ofNullable((Article)jdbcTemplate.queryForObject(query,new ArticleRowMapper(),id));
+    Optional<Article> findByPriceBetween(BigDecimal price, BigDecimal min , BigDecimal max);
 
-    }
-
-    public Article create(Article article){
-        String query ="INSERT INTO Article(name,description,price,CategoryId) VALUES(?,?,?,?)";
-        jdbcTemplate.update(query,article.getName(),article.getDescription(),article.getPrice(),article.getCategory().getId());
-
-
-
-            return article;
-
-
-    }
-    public Article update(Article article){
-        String query = "UPDATE Article SET name=?,description = ?,price =?,categoryId=? WHERE id = ?";
-        jdbcTemplate.update(query,article.getName(),article.getDescription(),article.getPrice(),article.getCategory().getId());
-        return article;
-    }
-
+     */
 }

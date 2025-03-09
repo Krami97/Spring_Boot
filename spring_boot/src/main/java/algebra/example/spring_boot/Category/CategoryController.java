@@ -1,6 +1,7 @@
 package algebra.example.spring_boot.Category;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
+import algebra.example.spring_boot.Category.dto.CreateCategoryDto;
+import algebra.example.spring_boot.Category.dto.UpdateCategoryDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,11 @@ public class CategoryController {
     public ResponseEntity<Category> update(@Valid @RequestBody UpdateCategoryDto dto , @PathVariable Integer id){
         Category category = categoryService.update(dto,id);
         return ResponseEntity.status(200).body(category);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
+        categoryService.delete(id);
+        return ResponseEntity.status(204).build();
     }
 
 

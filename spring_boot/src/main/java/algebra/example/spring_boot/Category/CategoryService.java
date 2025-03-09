@@ -1,11 +1,15 @@
 package algebra.example.spring_boot.Category;
 
+import algebra.example.spring_boot.Category.dto.CreateCategoryDto;
+import algebra.example.spring_boot.Category.dto.UpdateCategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +44,7 @@ public class CategoryService {
         return newCategory.get();
     }
 
-    public Category update(UpdateCategoryDto dto,Integer id){
+    public Category update(UpdateCategoryDto dto, Integer id){
         Category category = new Category();
         category.setId(id);
         category.setName(dto.getName());
@@ -51,6 +55,12 @@ public class CategoryService {
             throw new NoSuchElementException();
         }
         return updatedCategory.get();
+    }
+
+    public void delete (Integer id ){
+
+            categoryRepository.delete(id);
+
     }
 }
 
