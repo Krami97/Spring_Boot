@@ -49,5 +49,32 @@ public class ArticleController {
         articleService.delete(id);
         return ResponseEntity.status(204).build();
     }
+    @GetMapping("/price_categoryId")
+    public ResponseEntity<List<Article>> findByPriceBetweenAndCategory_id(@RequestParam("min")Integer min ,
+                                                                          @RequestParam("max")Integer max,
+                                                                          @RequestParam("category_id") Integer id){
+        List<Article> articles = articleService.findByPriceBetweenAndCategory_id(min,max,id);
+        if(articles.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.status(200).body(articles);
+    }
+
+    @GetMapping("/nameOrDescription")
+    public ResponseEntity<List<Article>> findByNameOrDescriptionIgnoreCase(@RequestParam(value = "name",required = false)String name, @RequestParam(value = "description",required = false)String description){
+        List<Article> articles = articleService.findByNameOrDescriptionIgnoreCase(name,description);
+        if(articles.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.status(200).body(articles);
+    }
+
+    @GetMapping("/top-expensive")
+    public ResponseEntity<Article> findMostExpensive(){
+        Article article = articleService.findMostExpensive();
+
+        return ResponseEntity.status(200).body(article);
+    }
+
 
 }

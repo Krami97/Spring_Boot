@@ -17,4 +17,10 @@ public interface ArticleService {
     Article update(Integer id, UpdateArticleDto dto);
 
     void delete(Integer id);
+
+    List<Article> findByPriceBetweenAndCategory_id(Integer min , Integer max ,Integer CategoryId);
+
+    List<Article> findByNameOrDescriptionIgnoreCase(String name,String description);
+
+    Article findMostExpensive();
 }

@@ -1,16 +1,23 @@
 package algebra.example.spring_boot.Article;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 // ima vec predefinirane CRUD metode
 @Repository
 public interface ArticleRepository extends JpaRepository<Article,Integer> {
+
+
+
+
+    List<Article> findByPriceBetweenAndCategory_id(Integer min , Integer max ,Integer CategoryId);
+
+    List<Article> findByNameOrDescriptionIgnoreCase(String name,String description);
+
+    Optional<Article> findFirstByOrderByPriceDesc();
 
     /*
     Optional<Article> findTop1ByName(String name);//vrati prvi artikl koji je po imenu

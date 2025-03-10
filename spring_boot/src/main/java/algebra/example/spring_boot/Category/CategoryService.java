@@ -5,7 +5,6 @@ import algebra.example.spring_boot.Category.dto.UpdateCategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -18,11 +17,9 @@ public class CategoryService {
     public final CategoryRepository categoryRepository;
 
     public List<Category> fechAll(){
-        Optional<List<Category>> categories =categoryRepository.fechAll();
-        if(categories.isEmpty()){
-            throw new NoSuchElementException();
-        }
-        return categories.get();
+        List<Category> categories = categoryRepository.findAll();
+
+        return categories;
     }
 
     public Category findById(Integer id){
@@ -33,15 +30,13 @@ public class CategoryService {
         return category.get();
     }
 
-    public Category create(CreateCategoryDto dto){
+    public Category create(CreateCategoryDto dto) {
         Category category = new Category();
         category.setName(dto.getName());
         category.setDescription(dto.getDescription());
-        Optional<Category> newCategory = categoryRepository.create(category);
-        if(newCategory.isEmpty()){
-            throw new NoSuchElementException();
-        }
-        return newCategory.get();
+        Category newCategory = categoryRepository.save(category);
+
+        return newCategory;
     }
 
     public Category update(UpdateCategoryDto dto, Integer id){
@@ -50,16 +45,17 @@ public class CategoryService {
         category.setName(dto.getName());
         category.setDescription(dto.getDescription());
 
-        Optional<Category> updatedCategory = categoryRepository.update(category);
-        if(updatedCategory.isEmpty()){
-            throw new NoSuchElementException();
-        }
-        return updatedCategory.get();
+        Category updatedCategory = categoryRepository.save(category);
+
+        return updatedCategory;
     }
 
     public void delete (Integer id ){
-
-            categoryRepository.delete(id);
+        Optional<Category> category = categoryRepository.findById(id);
+        if(category.isEmpty()){
+            throw new RuntimeException("No such Category");
+        }
+            categoryRepository.delete(category.get());
 
     }
 }
