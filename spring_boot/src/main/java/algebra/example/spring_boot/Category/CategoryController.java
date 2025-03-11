@@ -14,30 +14,36 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    public final CategoryService categoryService;
+    public final CategoryServiceImpl categoryServiceImpl;
 
     @GetMapping
     public ResponseEntity<List<Category>> fechAll(){
-        return ResponseEntity.status(200).body(categoryService.fechAll());
+        return ResponseEntity.status(200).body(categoryServiceImpl.fechAll());
     }
     @GetMapping("/{id}")
     public ResponseEntity<Category> findById(@PathVariable Integer id){
-        return ResponseEntity.status(200).body(categoryService.findById(id));
+        return ResponseEntity.status(200).body(categoryServiceImpl.findById(id));
     }
     @PostMapping
     public ResponseEntity<Category> create(@Valid @RequestBody CreateCategoryDto dto){
-        Category category = categoryService.create(dto);
+        Category category = categoryServiceImpl.create(dto);
         return ResponseEntity.status(201).body(category);
     }
     @PutMapping("/{id}")
     public ResponseEntity<Category> update(@Valid @RequestBody UpdateCategoryDto dto , @PathVariable Integer id){
-        Category category = categoryService.update(dto,id);
+        Category category = categoryServiceImpl.update(dto,id);
         return ResponseEntity.status(200).body(category);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Integer id) {
-        categoryService.delete(id);
+        categoryServiceImpl.delete(id);
         return ResponseEntity.status(204).build();
+    }
+
+    @GetMapping("/{id}/count-articles")
+    public ResponseEntity<Long>numberOfArticlesByCategory(@PathVariable Integer id){
+        Long numberOfArticles = categoryServiceImpl.numberOfArticlesByCategory(id);
+        return ResponseEntity.status(200).body(numberOfArticles);
     }
 
 
